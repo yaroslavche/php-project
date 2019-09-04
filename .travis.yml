@@ -28,10 +28,10 @@ before_script:
 
 script:
   - composer validate --no-check-all
-  #- composer phpcs
-  #- composer phpmd
-  #- composer phpstan
-  #- composer phpunit || exit 1
+  - composer phpcs
+  - composer phpmd
+  - composer phpstan
+  - composer phpunit || exit 1
   #- composer infection || exit 1
   #- composer coverage
 
