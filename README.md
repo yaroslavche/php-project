@@ -1,6 +1,9 @@
 # 
 [![Build Status](https://travis-ci.org/yaroslavche/php-project.svg?branch=master)](https://travis-ci.org/yaroslavche/php-project)
-![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+[![License](https://poser.pugx.org/yaroslavche/php-project/license?format=flat)](https://packagist.org/packages/yaroslavche/php-project)
+[![Latest Stable Version](https://poser.pugx.org/yaroslavche/php-project/v/stable?format=flat)](https://packagist.org/packages/yaroslavche/php-project)
+[![PHP Version](https://img.shields.io/packagist/php-v/yaroslavche/php-project/dev-master)](https://www.php.net/)
+
 
 Clean PHP 7.2 project with dev tools.
 
