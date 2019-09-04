@@ -6,7 +6,7 @@ Clean PHP 7.2 project with dev tools.
 
 Download and install
 ```bash
-$ composer create-project yaroslavche/php-project
+$ composer create-project yaroslavche/php-project projectName --prefer-source
 ```
 
 or manually
@@ -149,4 +149,4 @@ $ composer install
 [docs](https://docs.travis-ci.com/)
 > Continuous Integration is the practice of merging in small code changes frequently - rather than merging in a large change at the end of a development cycle. The goal is to build healthier software by developing and testing in smaller increments. This is where Travis CI comes in.
 
-Edit `.travis.yml` if needed and enable travis builds. If need to use phpunit, code coverage and infection, then need uncomment lines in `script` section.
+If need, uncomment in `.travis.yml` needed checks (lines in `script` section) and [enable travis builds](https://travis-ci.org) for repository.
