@@ -1,4 +1,6 @@
 # 
+[![Build Status](https://travis-ci.org/yaroslavche/php-project.svg?branch=master)](https://travis-ci.org/yaroslavche/php-project)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 
 Clean PHP 7.2 project with dev tools.
 
