@@ -1,0 +1,12 @@
+## Uncomment the lines below to exclude these files in dist
+# tests/ export-ignore
+# .gitattributes export-ignore
+# .gitignore export-ignore
+# infection.json.dist
+# phpcs.xml.dist export-ignore
+# phpmd.xml.dist export-ignore
+# phpstan.neon export-ignore
+# phpunit.xml.dist export-ignore
+
+# Auto detect text files and perform LF normalization
+* text=auto

@@ -7,8 +7,8 @@ cache:
     - $HOME/.cache/composer/files
 
 php:
-  - 7.2
-  - 7.3
+  - '7.2'
+  - '7.3'
   - 7.4snapshot
   - nightly
 
@@ -30,9 +30,10 @@ script:
   - composer validate --no-check-all
   - composer phpcs
   - composer phpmd
-  - composer phpstan || exit 1
-  - composer phpunit || exit 1
+  - composer phpstan
+  #- composer phpunit || exit 1
   #- composer infection || exit 1
+  #- composer coverage
 
 
 notifications:
