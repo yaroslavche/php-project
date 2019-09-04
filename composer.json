@@ -1,5 +1,5 @@
 {
-    "name": "yaroslavche/test",
+    "name": "yaroslavche/php-project",
     "description": "Clean PHP7 project with installed dev-tools",
     "type": "project",
     "license": "MIT",
