@@ -78,10 +78,13 @@ class ComposerEventHandler
         array_map(
             'unlink',
             array_filter(
-                array_merge(
-                    (array)glob(sprintf('%s%ssrc/*', self::$projectRootDir, DIRECTORY_SEPARATOR)),
-                    (array)glob(sprintf('%s%stests/*', self::$projectRootDir, DIRECTORY_SEPARATOR))
-                )
+                (array)glob(sprintf('%s%ssrc/*', self::$projectRootDir, DIRECTORY_SEPARATOR))
+            )
+        );
+        array_map(
+            'unlink',
+            array_filter(
+                (array)glob(sprintf('%s%stests/*', self::$projectRootDir, DIRECTORY_SEPARATOR))
             )
         );
         unlink(sprintf('%s%sinternal/*', self::$projectRootDir, DIRECTORY_SEPARATOR));
