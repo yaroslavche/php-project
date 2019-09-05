@@ -22,7 +22,6 @@ final class Install
         $this->event = $event;
         $this->getOptions();
         $this->saveComposerJson();
-        $this->clearDirectories();
     }
 
     private function getOptions()
@@ -81,7 +80,7 @@ final class Install
         file_put_contents($composerJsonFilePath, $composerJsonContent);
     }
 
-    private function clearDirectories(): void
+    public function __destruct()
     {
         if ($this->options['self_destroy']) {
             // need rewrite
