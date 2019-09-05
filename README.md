@@ -22,29 +22,9 @@ $ composer install
 ```
 
 <details>
-  <summary>Change namespace in composer.json if needed.</summary>
+  <summary>Post install cmd</summary>
   
-  `App` to `Acme\ProjectName`. [PSR-4](https://www.php-fig.org/psr/psr-4/)
-  
-  ```json
-  {
-    "autoload": {
-      "psr-4": {
-        "Acme\\ProjectName\\": "src/"
-      }
-    },
-    "autoload-dev": {
-      "psr-4": {
-        "Acme\\ProjectName\\Tests\\": "tests/"
-      }
-    }
-  }
-  ```
-
-  And dump autoload:
-  ```bash
-  $ composer dump-autoload
-  ```
+  In `composer.json` you can see `post-install-cmd`, which run installation. Script will ask needed information, change `composer.json` and remove `internal` directory with installer and unneeded scripts in `composer.json`. 
 </details>
 
 <details>
