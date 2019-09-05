@@ -30,7 +30,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "Yaroslavche\\PhpProject\\": "internal/"
         }
     },
     "scripts": {
@@ -42,7 +43,7 @@
         "infection": "infection --min-msi=50 --min-covered-msi=70 --log-verbosity=all",
         "coverage": "phpunit --coverage-text --coverage-html ./build/coverage/html --coverage-clover ./build/coverage/clover.xml",
         "bccheck": "roave-backward-compatibility-check",
-        "post-autoload-dump": "App\\ComposerEventHandler::postAutoloadDump"
+        "post-autoload-dump": "Yaroslavche\\PhpProject\\ComposerEventHandler::postAutoloadDump"
     },
     "minimum-stability": "dev"
 }
