@@ -18,15 +18,15 @@ class ComposerEventHandler
 
     public static function postInstall(Event $event): void
     {
+        self::ask($event);
+        self::saveComposerJson();
+        self::clearDirectories();
+        self::dumpAutoload();
         echo $event->getName();
     }
 
     public static function postCreateProject(Event $event): void
     {
-        self::ask($event);
-        self::saveComposerJson();
-        self::clearDirectories();
-        self::dumpAutoload();
         echo $event->getName();
     }
 
