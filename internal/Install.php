@@ -6,34 +6,55 @@ use Composer\Script\Event;
 
 final class Install
 {
+    /** @var Event */
+    private $event;
     /** @var string|null $projectRootDir */
     private $projectRootDir;
-    /** @var array<string, string> $options */
+    /** @var array<string, string|null> $optionsKeys */
     private $options;
 
     public function __construct(Event $event)
     {
-        $this->ask($event);
+        $this->options = array_fill_keys(
+            ['vendor', 'package', 'description', 'type', 'license', 'authorName', 'authorEmail'],
+            null
+        );
+        $this->event = $event;
+        $this->getOptions();
         $this->saveComposerJson();
         $this->clearDirectories();
         $this->dumpAutoload();
     }
 
-    private function ask(Event $event)
+    private function getOptions()
     {
-        $io = $event->getIO();
-        while (empty($this->options['vendor'])) {
-            $this->options['vendor'] = $io->ask('Vendor:' . PHP_EOL);
-        }
-        while (empty($this->options['package'])) {
-            $this->options['package'] = $io->ask('Package:' . PHP_EOL);
+        foreach ($this->options as $optionKey => $optionValue) {
+            $this->options[$optionKey] = $this->ask($optionKey);
         }
         $this->options['packageName'] = sprintf('%s/%s', $this->options['vendor'], $this->options['package']);
-        $this->options['description'] = 'description';
-        $this->options['type'] = 'project';
-        $this->options['license'] = 'MIT';
-        $this->options['authorName'] = 'name';
-        $this->options['authorEmail'] = 'email@email.em';
+        $this->options['self_destroy'] = $this->event->getIO()->askConfirmation('Remove installer? [Y,n] ');
+    }
+
+    private function ask(string $optionKey): string
+    {
+        $value = null;
+        while (null === $value) {
+            $value = $this->event->getIO()->ask($optionKey . ': ');
+            if (null === $value && !in_array($optionKey, ['vendor', 'package'])) {
+                switch ($optionKey) {
+                    case 'type':
+                        $value = 'project';
+                        break;
+                    case 'license':
+                        $value = 'MIT';
+                        break;
+                    default:
+                        $value = '';
+                        break;
+                }
+            }
+        }
+        return $value;
     }
 
     private function saveComposerJson()
@@ -63,23 +84,10 @@ final class Install
 
     private function clearDirectories(): void
     {
-        // need rewrite for using filesystem
-        echo 'clear src';
-        array_map(
-            'unlink',
-            array_filter(
-                (array)glob(sprintf('%s%ssrc/*', $this->projectRootDir, DIRECTORY_SEPARATOR))
-            )
-        );
-        echo 'clear tests';
-        array_map(
-            'unlink',
-            array_filter(
-                (array)glob(sprintf('%s%stests/*', $this->projectRootDir, DIRECTORY_SEPARATOR))
-            )
-        );
-        echo 'remove internal';
-        system("rm -rf " . escapeshellarg(sprintf('%s%sinternal', $this->projectRootDir, DIRECTORY_SEPARATOR)));
+        if ($this->options['self_destroy']) {
+            // need rewrite
+            system("rm -rf " . escapeshellarg(sprintf('%s%sinternal', $this->projectRootDir, DIRECTORY_SEPARATOR)));
+        }
     }
 
     private function dumpAutoload(): void
