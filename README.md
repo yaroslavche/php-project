@@ -17,8 +17,8 @@ $ composer create-project yaroslavche/php-project projectName --prefer-source
 or manually
 
 ```bash
-$ git clone yaroslavche/php-project --prefer-source
-$ composer install
+$ git clone yaroslavche/php-project
+$ composer install --prefer-source
 ```
 
 <details>
