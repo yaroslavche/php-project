@@ -49,6 +49,7 @@ class ComposerEventHandler
         file_put_contents($composerJsonFilePath, $composerJsonContent);
 
         self::clearDirectories();
+        return 0;
     }
 
     private static function clearDirectories(): void
