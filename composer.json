@@ -1,12 +1,12 @@
 {
-    "name": "yaroslavche/test_package",
-    "description": "description",
+    "name": "yaroslavche/php-project",
+    "description": "Clean PHP7 project with installed dev-tools",
     "type": "project",
     "license": "MIT",
     "authors": [
         {
-            "name": "name",
-            "email": "email@email.em"
+            "name": "yaroslavche",
+            "email": "yaroslav429@gmail.com"
         }
     ],
     "require": {
@@ -25,12 +25,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Yaroslavche\\Test_package\\": "src/"
+            "App\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Yaroslavche\\Test_package\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "Yaroslavche\\PhpProject\\": "internal/"
         }
     },
     "scripts": {
@@ -42,7 +43,9 @@
         "infection": "infection --min-msi=50 --min-covered-msi=70 --log-verbosity=all",
         "coverage": "phpunit --coverage-text --coverage-html ./build/coverage/html --coverage-clover ./build/coverage/clover.xml",
         "bccheck": "roave-backward-compatibility-check",
-        "post-autoload-dump": "Yaroslavche\\PhpProject\\ComposerEventHandler::postAutoloadDump"
+        "post-autoload-dump": "Yaroslavche\\PhpProject\\ComposerEventHandler::postAutoloadDump",
+        "post-install-cmd": "Yaroslavche\\PhpProject\\ComposerEventHandler::postInstall",
+        "post-create-project-cmd": "Yaroslavche\\PhpProject\\ComposerEventHandler::postCreateProject"
     },
     "minimum-stability": "dev"
 }

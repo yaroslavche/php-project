@@ -11,18 +11,26 @@ class ComposerEventHandler
     /** @var array<string, string> $options */
     private static $options;
 
-    public static function postAutoloadDump(?Event $event): int
+    public static function postAutoloadDump(Event $event): void
     {
-        if (null === $event) {
-            return 0;
-        }
+        echo $event->getName();
+    }
+
+    public static function postInstall(Event $event): void
+    {
+        echo $event->getName();
+    }
+
+    public static function postCreateProject(Event $event): void
+    {
         self::ask($event);
         self::saveComposerJson();
         self::clearDirectories();
         self::dumpAutoload();
-        return 0;
+        echo $event->getName();
     }
 
+    /** move to class */
     private static function ask(Event $event)
     {
         $io = $event->getIO();
@@ -57,7 +65,9 @@ class ComposerEventHandler
         $composerJson['autoload']['psr-4'] = [$newNamespace => 'src/'];
         $composerJson['autoload-dev']['psr-4'] = [sprintf('%sTests\\', $newNamespace) => 'tests/'];
 
+        unset($composerJson['scripts']['post-autoload-dump']);
         unset($composerJson['scripts']['post-install-cmd']);
+        unset($composerJson['scripts']['post-create-project-cmd']);
 
         $composerJsonContent = json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         file_put_contents($composerJsonFilePath, $composerJsonContent);
