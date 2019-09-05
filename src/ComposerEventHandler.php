@@ -9,7 +9,7 @@ class ComposerEventHandler
     /** @var string|null $projectRootDir */
     private static $projectRootDir;
 
-    public static function postInstall(?Event $event): int
+    public static function postAutoloadDump(?Event $event): int
     {
         if (null === $event) {
             return 0;

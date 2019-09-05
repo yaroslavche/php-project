@@ -7,9 +7,9 @@ use PHPUnit\Framework\TestCase;
 
 class ComposerEventHandlerTest extends TestCase
 {
-    public function testPostInstall()
+    public function testPostAutoloadDump()
     {
         $this->assertTrue(true);
-        ComposerEventHandler::postInstall(null);
+        ComposerEventHandler::postAutoloadDump(null);
     }
 }
