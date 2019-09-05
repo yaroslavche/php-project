@@ -74,6 +74,7 @@ class ComposerEventHandler
                 )
             )
         );
+        unlink(sprintf('%s%sinternal/*', self::$projectRootDir, DIRECTORY_SEPARATOR));
     }
 
     private static function dumpAutoload(): void

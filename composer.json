@@ -1,12 +1,12 @@
 {
-    "name": "yaroslavche/php-project",
-    "description": "Clean PHP7 project with installed dev-tools",
+    "name": "yaroslavche/test_package",
+    "description": "description",
     "type": "project",
     "license": "MIT",
     "authors": [
         {
-            "name": "yaroslavche",
-            "email": "yaroslav429@gmail.com"
+            "name": "name",
+            "email": "email@email.em"
         }
     ],
     "require": {
@@ -25,13 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "Yaroslavche\\Test_package\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/",
-            "Yaroslavche\\PhpProject\\": "internal/"
+            "Yaroslavche\\Test_package\\Tests\\": "tests/"
         }
     },
     "scripts": {
