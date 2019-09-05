@@ -75,19 +75,23 @@ class ComposerEventHandler
 
     private static function clearDirectories(): void
     {
+        // need rewrite for using filesystem
+        echo 'clear src';
         array_map(
             'unlink',
             array_filter(
                 (array)glob(sprintf('%s%ssrc/*', self::$projectRootDir, DIRECTORY_SEPARATOR))
             )
         );
+        echo 'clear tests';
         array_map(
             'unlink',
             array_filter(
                 (array)glob(sprintf('%s%stests/*', self::$projectRootDir, DIRECTORY_SEPARATOR))
             )
         );
-        unlink(sprintf('%s%sinternal/*', self::$projectRootDir, DIRECTORY_SEPARATOR));
+        echo 'remove internal';
+        system("rm -rf ".escapeshellarg(sprintf('%s%sinternal', self::$projectRootDir, DIRECTORY_SEPARATOR)));
     }
 
     private static function dumpAutoload(): void
