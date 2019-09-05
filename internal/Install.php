@@ -23,7 +23,6 @@ final class Install
         $this->getOptions();
         $this->saveComposerJson();
         $this->clearDirectories();
-        $this->dumpAutoload();
     }
 
     private function getOptions()
@@ -88,9 +87,5 @@ final class Install
             // need rewrite
             system("rm -rf " . escapeshellarg(sprintf('%s%sinternal', $this->projectRootDir, DIRECTORY_SEPARATOR)));
         }
-    }
-
-    private function dumpAutoload(): void
-    {
     }
 }
