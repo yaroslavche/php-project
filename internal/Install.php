@@ -3,7 +3,6 @@
 namespace Yaroslavche\PhpProject;
 
 use Composer\Script\Event;
-use Exception;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class Install
@@ -66,13 +65,6 @@ final class Install
     private function saveComposerJson()
     {
         $composerJsonFilePath = sprintf('%s%scomposer.json', $this->projectRootDir, DIRECTORY_SEPARATOR);
-        if (!$this->filesystem->exists($composerJsonFilePath)) {
-            throw new Exception('composer.json is missed');
-        }
-        $composerJson = json_decode(file_get_contents($composerJsonFilePath), true);
-        if (!is_array($composerJson)) {
-            throw new Exception('composer.json is invalid');
-        }
 
         $composerJson['name'] = $this->options['packageName'];
         if (!empty($this->options['description'])) {
