@@ -71,15 +71,13 @@ final class Install
         }
         $composerJson['type'] = $this->options['type'];
         $composerJson['license'] = $this->options['license'];
-        if (!empty($this->options['authorName'])) {
-            $composerJson['authors'][0]['name'] = $this->options['authorName'];
-        } else {
-            unset($composerJson['authors'][0]['name']);
-        }
-        if (!empty($this->options['authorEmail'])) {
+        if (filter_var($this->options['authorEmail'], FILTER_VALIDATE_EMAIL)) {
+            if (!empty($this->options['authorName'])) {
+                $composerJson['authors'][0]['name'] = $this->options['authorName'];
+            }
             $composerJson['authors'][0]['email'] = $this->options['authorEmail'];
         } else {
-            unset($composerJson['authors'][0]['email']);
+            unset($composerJson['authors']);
         }
 
         $newNamespace = sprintf('%s\\%s\\', ucfirst($this->options['vendor']), ucfirst($this->options['package']));
