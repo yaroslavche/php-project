@@ -3,6 +3,7 @@
 namespace Yaroslavche\PhpProject;
 
 use Composer\Script\Event;
+use Symfony\Component\Filesystem\Filesystem;
 
 final class Install
 {
@@ -20,6 +21,8 @@ final class Install
             null
         );
         $this->event = $event;
+        $this->projectRootDir = realpath(sprintf('%s%s..%s', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR));
+
         $this->getOptions();
         $this->saveComposerJson();
     }
@@ -57,16 +60,27 @@ final class Install
 
     private function saveComposerJson()
     {
-        $this->projectRootDir = realpath(sprintf('%s%s..%s', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR));
         $composerJsonFilePath = sprintf('%s%scomposer.json', $this->projectRootDir, DIRECTORY_SEPARATOR);
         $composerJson = json_decode(file_get_contents($composerJsonFilePath), true);
 
         $composerJson['name'] = $this->options['packageName'];
-        $composerJson['description'] = $this->options['description'];
+        if (!empty($this->options['description'])) {
+            $composerJson['description'] = $this->options['description'];
+        } else {
+            unset($composerJson['description']);
+        }
         $composerJson['type'] = $this->options['type'];
         $composerJson['license'] = $this->options['license'];
-        $composerJson['authors'][0]['name'] = $this->options['authorName'];
-        $composerJson['authors'][0]['email'] = $this->options['authorEmail'];
+        if (!empty($this->options['authorName'])) {
+            $composerJson['authors'][0]['name'] = $this->options['authorName'];
+        } else {
+            unset($composerJson['authors'][0]['name']);
+        }
+        if (!empty($this->options['authorEmail'])) {
+            $composerJson['authors'][0]['email'] = $this->options['authorEmail'];
+        } else {
+            unset($composerJson['authors'][0]['email']);
+        }
 
         $newNamespace = sprintf('%s\\%s\\', ucfirst($this->options['vendor']), ucfirst($this->options['package']));
         $composerJson['autoload']['psr-4'] = [$newNamespace => 'src/'];
@@ -83,8 +97,8 @@ final class Install
     public function __destruct()
     {
         if ($this->options['self_destroy']) {
-            // need rewrite
-            system("rm -rf " . escapeshellarg(sprintf('%s%sinternal', $this->projectRootDir, DIRECTORY_SEPARATOR)));
+            $filesystem = new Filesystem();
+            $filesystem->remove(sprintf('%s%sinternal', $this->projectRootDir, DIRECTORY_SEPARATOR));
         }
     }
 }
