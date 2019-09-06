@@ -84,11 +84,16 @@ final class Install
 
         $newNamespace = sprintf('%s\\%s\\', ucfirst($this->options['vendor']), ucfirst($this->options['package']));
         $composerJson['autoload']['psr-4'] = [$newNamespace => 'src/'];
-        $composerJson['autoload-dev']['psr-4'] = [sprintf('%sTests\\', $newNamespace) => 'tests/'];
-
-        unset($composerJson['scripts']['post-autoload-dump']);
-        unset($composerJson['scripts']['post-install-cmd']);
-        unset($composerJson['scripts']['post-create-project-cmd']);
+        if ($this->options['self_destroy']) {
+            $composerJson['autoload-dev']['psr-4'] = [sprintf('%sTests\\', $newNamespace) => 'tests/'];
+            unset($composerJson['scripts']['post-install-cmd']);
+            unset($composerJson['scripts']['post-create-project-cmd']);
+        } else {
+            $composerJson['autoload-dev']['psr-4'] = [
+                sprintf('%sTests\\', $newNamespace) => 'tests/',
+                __NAMESPACE__ . '\\' => 'internal/'
+            ];
+        }
 
         $composerJsonContent = json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         file_put_contents($composerJsonFilePath, $composerJsonContent);
@@ -96,7 +101,7 @@ final class Install
 
     public function __destruct()
     {
-        if ($this->options['self_destroy']) {
+        if ($this->options['self_destroy'] === true) {
             $filesystem = new Filesystem();
             $filesystem->remove(sprintf('%s%sinternal', $this->projectRootDir, DIRECTORY_SEPARATOR));
         }
