@@ -5,7 +5,7 @@
 [![PHP Version](https://img.shields.io/packagist/php-v/yaroslavche/php-project/dev-master)](https://www.php.net/)
 
 
-Clean PHP 7.2 project with dev tools.
+Clean PHP project with dev tools.
 
 ## Installation
 
@@ -22,15 +22,15 @@ $ composer install --prefer-source
 ```
 
 <details>
-  <summary>Post install cmd</summary>
+  <summary>Post cmd</summary>
   
-  In `composer.json` you can see `post-install-cmd`, which run installation. Script will ask needed information, change `composer.json` and remove `internal` directory with installer and unneeded scripts in `composer.json`. 
-</details>
-
-<details>
-  <summary>Change .gitattributes</summary>
-  
-  When someone will install your package through with `--prefer-dist` option, all the files and directories listed in `.gitattributes` file will be excluded.
+  In `composer.json` you can see `post-install-cmd` and `post-create-project-cmd`, which will: 
+   - ask needed information
+   - change `composer.json`
+   - replace all occurrences (vendor, package) in `README.md`
+   - uncomment lines in `.gitattributes`
+   - remove self in `composer.json` (if remove installer after complete)
+   - remove installer (whole `internal` directory, by default)
 </details>
 
 ## Tools

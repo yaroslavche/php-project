@@ -29,7 +29,8 @@ final class Install
         $this->projectRootDir = realpath(sprintf('%s%s..%s', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR));
 
         $this->getOptions();
-        $this->saveComposerJson();
+//        $this->saveComposerJson();
+        $this->changeInformation();
     }
 
     private function getOptions()
@@ -101,6 +102,36 @@ final class Install
 
         $composerJsonContent = json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         $this->filesystem->dumpFile($composerJsonFilePath, $composerJsonContent);
+    }
+
+    private function changeInformation()
+    {
+        /** README.md */
+        $readmeFilePath = sprintf('%s%sREADME2.md', $this->projectRootDir, DIRECTORY_SEPARATOR);
+        $this->replaceInFile(
+            $readmeFilePath,
+            [
+                'yaroslavche',
+                'php-project'
+            ],
+            [
+                $this->options['vendor'],
+                $this->options['package']
+            ]
+        );
+
+        /** .gitattributes */
+        $gitattributesFilePath = sprintf('%s%s.gitattributes', $this->projectRootDir, DIRECTORY_SEPARATOR);
+        $this->replaceInFile($gitattributesFilePath, ['# '], ['']);
+    }
+
+    private function replaceInFile(string $filePath, array $search, array $replace)
+    {
+        if ($this->filesystem->exists($filePath)) {
+            $content = file_get_contents($filePath);
+            $content = str_replace($search, $replace, $content);
+            $this->filesystem->dumpFile($filePath, $content);
+        }
     }
 
     public function __destruct()
