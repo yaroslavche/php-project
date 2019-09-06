@@ -3,6 +3,7 @@
 namespace Yaroslavche\PhpProject;
 
 use Composer\Script\Event;
+use Exception;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class Install
@@ -13,6 +14,8 @@ final class Install
     private $projectRootDir;
     /** @var array<string, string|null> $optionsKeys */
     private $options;
+    /** @var Filesystem $filesystem */
+    private $filesystem;
 
     public function __construct(Event $event)
     {
@@ -21,6 +24,8 @@ final class Install
             null
         );
         $this->event = $event;
+        $this->filesystem = new Filesystem();
+
         $this->projectRootDir = realpath(sprintf('%s%s..%s', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR));
 
         $this->getOptions();
@@ -61,7 +66,13 @@ final class Install
     private function saveComposerJson()
     {
         $composerJsonFilePath = sprintf('%s%scomposer.json', $this->projectRootDir, DIRECTORY_SEPARATOR);
+        if (!$this->filesystem->exists($composerJsonFilePath)) {
+            throw new Exception('composer.json is missed');
+        }
         $composerJson = json_decode(file_get_contents($composerJsonFilePath), true);
+        if (!is_array($composerJson)) {
+            throw new Exception('composer.json is invalid');
+        }
 
         $composerJson['name'] = $this->options['packageName'];
         if (!empty($this->options['description'])) {
@@ -94,14 +105,13 @@ final class Install
         }
 
         $composerJsonContent = json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        file_put_contents($composerJsonFilePath, $composerJsonContent);
+        $this->filesystem->dumpFile($composerJsonFilePath, $composerJsonContent);
     }
 
     public function __destruct()
     {
         if ($this->options['self_destroy'] === true) {
-            $filesystem = new Filesystem();
-            $filesystem->remove(sprintf('%s%sinternal', $this->projectRootDir, DIRECTORY_SEPARATOR));
+            $this->filesystem->remove(sprintf('%s%sinternal', $this->projectRootDir, DIRECTORY_SEPARATOR));
         }
     }
 }
