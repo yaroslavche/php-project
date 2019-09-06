@@ -107,7 +107,7 @@ final class Install
     private function changeInformation()
     {
         /** README.md */
-        $readmeFilePath = sprintf('%s%sREADME2.md', $this->projectRootDir, DIRECTORY_SEPARATOR);
+        $readmeFilePath = sprintf('%s%sREADME.md', $this->projectRootDir, DIRECTORY_SEPARATOR);
         $this->replaceInFile(
             $readmeFilePath,
             [
