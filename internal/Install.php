@@ -38,26 +38,27 @@ final class Install
             $this->options[$optionKey] = $this->ask($optionKey);
         }
         $this->options['packageName'] = sprintf('%s/%s', $this->options['vendor'], $this->options['package']);
-        $this->options['self_destroy'] = $this->event->getIO()->askConfirmation('Remove installer? [Y,n] ');
+        $this->options['self_destroy'] = $this->event->getIO()->askConfirmation('Remove installer? [<comment>Y,n</comment>] ');
     }
 
     private function ask(string $optionKey): string
     {
         $value = null;
         while (null === $value) {
-            $value = $this->event->getIO()->ask($optionKey . ': ');
+            $question = $optionKey;
+            $default = '';
+            switch ($optionKey) {
+                case 'type':
+                    $default = 'project';
+                    break;
+                case 'license':
+                    $default = 'MIT';
+                    break;
+            }
+            $question = sprintf('%s%s: ', $question, !empty($default) ? sprintf(' [<comment>%s</comment>]', $default) : '');
+            $value = $this->event->getIO()->ask($question);
             if (null === $value && !in_array($optionKey, ['vendor', 'package'])) {
-                switch ($optionKey) {
-                    case 'type':
-                        $value = 'project';
-                        break;
-                    case 'license':
-                        $value = 'MIT';
-                        break;
-                    default:
-                        $value = '';
-                        break;
-                }
+                $value = $default;
             }
         }
         return $value;
