@@ -12,8 +12,10 @@ final class Install
     private $event;
     /** @var string|null $projectRootDir */
     private $projectRootDir;
-    /** @var array<string, string|null> $optionsKeys */
+    /** @var array<string, string|null> $options */
     private $options;
+    /** @var array<string, array> $optionsConfig */
+    private $optionsConfig;
     /** @var Filesystem $filesystem */
     private $filesystem;
 
@@ -23,6 +25,14 @@ final class Install
             ['vendor', 'package', 'description', 'type', 'license', 'authorName', 'authorEmail'],
             null
         );
+        $this->optionsConfig = [
+            'vendor' => ['required' => true, 'question_addition' => ' ("<comment>vendor</comment>/package")'],
+            'package' => ['required' => true, 'question_addition' => ' ("vendor/<comment>package</comment>")'],
+            'type' => ['default' => 'project'],
+            'license' => ['default' => 'MIT'],
+            'authorName' => ['question' => 'Author'],
+            'authorEmail' => ['question' => 'Email'],
+        ];
         $this->event = $event;
         $this->filesystem = new Filesystem();
 
@@ -39,26 +49,27 @@ final class Install
             $this->options[$optionKey] = $this->ask($optionKey);
         }
         $this->options['packageName'] = sprintf('%s/%s', $this->options['vendor'], $this->options['package']);
-        $this->options['self_destroy'] = $this->event->getIO()->askConfirmation('Remove installer? [<comment>Y,n</comment>] ');
+        $this->options['self_destroy'] = $this->event->getIO()->askConfirmation('Remove installer? [<comment>Y</comment>,n] ');
     }
 
     private function ask(string $optionKey): string
     {
+        $question = sprintf(
+            '<info>%s</info>%s',
+            ucfirst($this->optionsConfig[$optionKey]['question'] ?? $optionKey),
+            $this->optionsConfig[$optionKey]['question_addition'] ?? ''
+        );
+        $default = $this->optionsConfig[$optionKey]['default'] ?? '';
+        $required = ($this->optionsConfig[$optionKey]['required'] ?? false) === true;
+        $question = sprintf(
+            '%s %s: ',
+            $question,
+            !empty($default) ? sprintf('[<comment>"%s"</comment>]', $default) : ($required ? '' : '[<comment>""</comment>]')
+        );
         $value = null;
         while (null === $value) {
-            $question = $optionKey;
-            $default = '';
-            switch ($optionKey) {
-                case 'type':
-                    $default = 'project';
-                    break;
-                case 'license':
-                    $default = 'MIT';
-                    break;
-            }
-            $question = sprintf('%s%s: ', $question, !empty($default) ? sprintf(' [<comment>%s</comment>]', $default) : '');
             $value = $this->event->getIO()->ask($question);
-            if (null === $value && !in_array($optionKey, ['vendor', 'package'])) {
+            if (null === $value && !$required) {
                 $value = $default;
             }
         }
