@@ -29,7 +29,7 @@ final class Install
         $this->projectRootDir = realpath(sprintf('%s%s..%s', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR));
 
         $this->getOptions();
-//        $this->saveComposerJson();
+        $this->saveComposerJson();
         $this->changeInformation();
     }
 
