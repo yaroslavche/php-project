@@ -6,10 +6,10 @@
         ]
     },
     "logs": {
-        "text": "build/infection/text.log",
-        "summary": "build/infection/summary.log",
-        "debug": "build/infection/debug.log",
-        "perMutator": "build/infection/perMutator.md"
+        "text": "var/infection/text.log",
+        "summary": "var/infection/summary.log",
+        "debug": "var/infection/debug.log",
+        "perMutator": "var/infection/perMutator.md"
     },
     "mutators": {
         "@default": true

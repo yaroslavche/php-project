@@ -1,23 +1,23 @@
 # 
-[![Build Status](https://travis-ci.org/yaroslavche/php-project.svg?branch=master)](https://travis-ci.org/yaroslavche/php-project)
+[![PHP build](https://github.com/yaroslavche/php-project/actions/workflows/php.yml/badge.svg)](https://github.com/yaroslavche/php-project/actions/workflows/php.yml)
 [![License](https://poser.pugx.org/yaroslavche/php-project/license?format=flat)](https://packagist.org/packages/yaroslavche/php-project)
 [![Latest Stable Version](https://poser.pugx.org/yaroslavche/php-project/v/stable?format=flat)](https://packagist.org/packages/yaroslavche/php-project)
 [![PHP Version](https://img.shields.io/packagist/php-v/yaroslavche/php-project/dev-master)](https://www.php.net/)
 
 
-Clean PHP project with dev tools.
+Clean PHP 8.1 project with dev tools.
 
 ## Installation
 
 Download and install
 ```bash
-$ composer create-project yaroslavche/php-project projectName --prefer-source
+$ composer create-project yaroslavche/php-project project-name --prefer-source
 ```
 
 or manually
 
 ```bash
-$ git clone yaroslavche/php-project
+$ git clone git@github.com:yaroslavche/php-project.git project-name
 $ composer install --prefer-source
 ```
 
@@ -111,27 +111,8 @@ $ composer install --prefer-source
 </details>
 
 <details>
-  <summary>Roave Backward Compatibility Check</summary>
-    
-  [Roave/BackwardCompatibilityCheck](https://github.com/Roave/BackwardCompatibilityCheck)
-  > A tool that can be used to verify BC breaks between two versions of a PHP library.
-  >
-  > Backward compatible (or sometimes backward-compatible or backwards compatible) refers to a hardware or software system that can successfully use interfaces and data from earlier versions of the system or with other systems.
- 
-  ```bash
-  $ composer bccheck
-  ```
-</details>
-
-<details>
   <summary>Roave Security Advisories</summary>
     
   [Roave/SecurityAdvisories](https://github.com/Roave/SecurityAdvisories)
   > Does not provide any API or usable classes: its only purpose is to prevent installation of software with known and documented security issues.
 </details> 
-
-## Travis CI
-[docs](https://docs.travis-ci.com/)
-> Continuous Integration is the practice of merging in small code changes frequently - rather than merging in a large change at the end of a development cycle. The goal is to build healthier software by developing and testing in smaller increments. This is where Travis CI comes in.
-
-If need, uncomment in `.travis.yml` needed checks (lines in `script` section) and [enable travis builds](https://travis-ci.org) for repository.

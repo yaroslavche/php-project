@@ -1,23 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yaroslavche\PhpProject;
 
 use Composer\Script\Event;
-use Exception;
 use Symfony\Component\Filesystem\Filesystem;
 
+/** @internal */
 final class Install
 {
-    /** @var Event */
-    private $event;
-    /** @var string|null $projectRootDir */
-    private $projectRootDir;
-    /** @var array<string, string|null> $options */
-    private $options;
+    private Event $event;
+    private ?string $projectRootDir;
+    /** @var array<string, null|string> $options */
+    private array $options;
     /** @var array<string, array> $optionsConfig */
-    private $optionsConfig;
+    private array $optionsConfig;
     /** @var Filesystem $filesystem */
-    private $filesystem;
+    private Filesystem $filesystem;
 
     public function __construct(Event $event)
     {
@@ -43,7 +43,7 @@ final class Install
         $this->changeInformation();
     }
 
-    private function getOptions()
+    private function getOptions(): void
     {
         foreach ($this->options as $optionKey => $optionValue) {
             $this->options[$optionKey] = $this->ask($optionKey);
@@ -76,7 +76,7 @@ final class Install
         return $value;
     }
 
-    private function saveComposerJson()
+    private function saveComposerJson(): void
     {
         $composerJsonFilePath = sprintf('%s%scomposer.json', $this->projectRootDir, DIRECTORY_SEPARATOR);
         $composerJson = json_decode(file_get_contents($composerJsonFilePath), true);
@@ -115,7 +115,7 @@ final class Install
         $this->filesystem->dumpFile($composerJsonFilePath, $composerJsonContent);
     }
 
-    private function changeInformation()
+    private function changeInformation(): void
     {
         /** README.md */
         $readmeFilePath = sprintf('%s%sREADME.md', $this->projectRootDir, DIRECTORY_SEPARATOR);
@@ -136,7 +136,7 @@ final class Install
         $this->replaceInFile($gitattributesFilePath, ['# '], ['']);
     }
 
-    private function replaceInFile(string $filePath, array $search, array $replace)
+    private function replaceInFile(string $filePath, array $search, array $replace): void
     {
         if ($this->filesystem->exists($filePath)) {
             $content = file_get_contents($filePath);
