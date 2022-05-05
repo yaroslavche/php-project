@@ -7,14 +7,6 @@
     <description>
         Rule set for this project
     </description>
-    <rule ref="rulesets/naming.xml">
-        <exclude name="LongVariable"/>
-    </rule>
-    <rule ref="rulesets/naming.xml/LongVariable">
-        <properties>
-            <property name="maximum" value="32"/>
-        </properties>
-    </rule>
     <rule ref="rulesets/design.xml/ExitExpression"/>
     <rule ref="rulesets/design.xml/EvalExpression"/>
     <rule ref="rulesets/design.xml/GotoStatement"/>
